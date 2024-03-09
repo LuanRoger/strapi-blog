@@ -1,0 +1,42 @@
+volumes:
+  strapi_data:
+
+networks:
+  strapi_net:
+    driver: bridge
+
+services:
+  strapi:
+    container_name: strapi_local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    volumes:
+      - ./config:/opt/app/config
+      - ./src:/opt/app/src
+      - ./package.json:/opt/package.json
+      - ./yarn.lock:/opt/yarn.lock
+      - ./.env:/opt/app/.env
+      - ./public/uploads:/opt/app/public/uploads
+    ports:
+      - 1337:1337
+    networks:
+      - strapi_net
+    depends_on:
+      - strapi_db
+
+  strapi_db:
+    container_name: strapi_db
+    image: postgres
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - strapi_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    networks:
+      - strapi_net
