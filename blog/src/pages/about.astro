@@ -1,0 +1,19 @@
+---
+import { Image } from "astro:assets";
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="Sobre">
+  <h1 class="font-bold text-2xl">Sobre</h1>
+  <div class="flex flex-col justify-center items-center">
+      <Image
+      src="https://1.gravatar.com/avatar/69bdf354219203f622f8b86f8f549902fcb5dc64d60ab9231296af152bc8cffd?size=256"
+      alt="Luan Roger"
+      class="rounded-full"
+      width={120}
+      height={120}
+      loading={"eager"}
+      />
+      <h2 class="text-3xl font-bold">Luan Roger</h2>
+  </div>
+</MainLayout>

@@ -1,0 +1,27 @@
+---
+import type { GetStaticPaths } from "astro";
+import type { Post } from "../../services/posts/interfaces/post";
+import {
+  getPostsMinimal,
+  getFullPost,
+} from "../../services/posts/strapi_posts";
+import PostLayout from "../../layouts/PostLayout.astro";
+import { MinimalPost } from "../../services/posts/interfaces/minimal_post";
+
+export const getStaticPaths = (async () => {
+  const posts: MinimalPost[] = await getPostsMinimal();
+
+  return posts.map((posts) => {
+    return {
+      params: {
+        id: posts.id,
+      },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { id } = Astro.params;
+const post: Post = await getFullPost(id);
+---
+
+<PostLayout post={post} />
