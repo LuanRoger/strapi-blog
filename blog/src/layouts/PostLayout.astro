@@ -1,0 +1,29 @@
+---
+import Prose from "../components/Prose.astro";
+import { Post } from "../services/posts/interfaces/post";
+import MainLayout from "./MainLayout.astro";
+import { formatStrapiResource } from "../utils/resources_formater";
+import { marked } from "marked";
+import { Image } from "astro:assets";
+
+interface Props {
+  post: Post;
+}
+
+const { title, body, cover } = Astro.props.post.attributes;
+const { url, caption } = cover.data.attributes;
+
+const coverUrl = formatStrapiResource(url);
+const alt = caption || "Generic cover image";
+const content = await marked.parse(body);
+---
+
+<MainLayout title={title}>
+  <div class="px-52 flex flex-col gap-5">
+    <Image src={coverUrl} width={1280} height={720} alt={alt} class:list={"rounded-md"} />
+    <h1 class="font-bold text-4xl">{title}</h1>
+    <Prose>
+      <article set:html={content} />
+    </Prose>
+  </div>
+</MainLayout>

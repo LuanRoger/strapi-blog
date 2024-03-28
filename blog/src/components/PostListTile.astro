@@ -1,0 +1,18 @@
+---
+import type { MinimalPost } from "../services/posts/interfaces/minimal_post";
+
+interface Props {
+  post: MinimalPost;
+}
+
+const { post } = Astro.props;
+const { title } = post.attributes;
+---
+
+<a href=`/posts/${post.id}`>
+  <li
+    class="transition-colors bg-purple-500 hover:bg-purple-800 w-full p-5 text-white rounded-md"
+  >
+    <h1 class="text-lg font-bold">{title}</h1>
+  </li>
+</a>

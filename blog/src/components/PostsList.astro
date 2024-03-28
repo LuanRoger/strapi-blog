@@ -1,0 +1,13 @@
+---
+import type { MinimalPost } from "../services/posts/interfaces/minimal_post"
+import { getPostsMinimal } from "../services/posts/strapi_posts"
+import PostListTile from "./PostListTile.astro"
+
+const posts: MinimalPost[] = await getPostsMinimal()
+---
+
+<ul class="space-x-5">
+    {
+        posts.map((post: MinimalPost) => <PostListTile post={post}/>)
+    }
+</ul>
